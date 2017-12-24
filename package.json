@@ -1,0 +1,23 @@
+{
+  "name": "codecompress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yyf1994gggg/codeCompress.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yyf1994gggg/codeCompress/issues"
+  },
+  "homepage": "https://github.com/yyf1994gggg/codeCompress#readme",
+  "devDependencies": {
+    "@types/node": "^8.5.2",
+    "posthtml": "^0.11.0"
+  }
+}
