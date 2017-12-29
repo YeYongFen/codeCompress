@@ -79,7 +79,7 @@ export async function encryptCode(inputCode:string):Promise<any>{
             }
         })
 
-        console.log(output);
+        return  (output);
 
         
 
