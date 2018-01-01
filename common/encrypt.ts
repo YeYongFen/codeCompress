@@ -45,8 +45,7 @@ var parseHtml = function pluginName(tree) {
 
         //console.log(node.attrs.id)
         if(node.attrs && node.attrs&& node.attrs.id=="ctl00_MainContent_TextBox2"){
-            //console.log("--------------", JSON.stringify(node.content) ,"--------------------");
-            //console.log(node.content.join(""))
+
             return node
         }
 
@@ -55,7 +54,14 @@ var parseHtml = function pluginName(tree) {
    // return tree;
 }
 
-
+function xmlescape (text) {
+    text = text.replace(/&amp;/g, "&");
+    text = text.replace(/&lt;/g, "<");
+    text = text.replace(/&gt;/g, ">");
+    text = text.replace(/&apos;/g, "'");
+    text = text.replace(/&quot;/g, '"');
+    return text;
+};
 
 
 
@@ -63,47 +69,30 @@ var parseHtml = function pluginName(tree) {
 
 export async function encryptCode(inputCode:string):Promise<any>{
 
-    try{
-        postData["ctl00$MainContent$TextBox1"] = inputCode;
-        let html =await   postMessage(url,postData,header);
+    postData["ctl00$MainContent$TextBox1"] = inputCode;
+    let promise =   postMessage(url,postData,header);
+    let output  = ""; 
+
+    //console.log("00000000000000000000000000000000000000000")
+
+    return new Promise((resolve,reject) => {
+        promise.then((v)=>{
+            let ast = parser(v);
+            match.call(ast, { tag: 'textarea' },  (node)=> {
+                if(node.attrs && node.attrs&& node.attrs.id=="ctl00_MainContent_TextBox2"){
+                    output+=node.content;
+                    return node
+                }
+            })
 
 
-
-        let ast = parser(html);
-        let output  = "";    
-
-       match.call(ast, { tag: 'textarea' },  (node)=> {
-            if(node.attrs && node.attrs&& node.attrs.id=="ctl00_MainContent_TextBox2"){
-                output+=node.content;
-                return node
-            }
+            resolve(  xmlescape(output) )
+        }).catch((e)=>{
+            console.log("error",e)
+            reject(e)
         })
 
-        return  (output);
 
-        
-
-    //     posthtml([parseHtml]).process(html).then((result)=>{
-    //        // console.log(11111111,result)
-
-
-    //     fs.writeFile(__dirname + '/test.html',result.html, {flag: 'a'}, function (err) {
-    //         if(err) {
-    //          console.error(err);
-    //          } else {
-    //             console.log('写入成功');
-    //          }
-    //      });
-
-
-
-
-
-    //    }) 
-    }catch(e){
-        console.log(e)
-    }
-
-    
+    })
     
 }
