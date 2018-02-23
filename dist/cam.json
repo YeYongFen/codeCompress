@@ -1,0 +1,25 @@
+{
+    
+    "version":"20.1.5",
+    "config":{
+        "EX_VERSION":"20.1.5",
+        "HOST" : "https://apps.lovense.com",
+        "LOG_HOST":"https://log.lovense.com",
+        "WEBSOKET_HOST":"wss://apps.lovense.com/app/ws"   
+    },
+
+    "inputRoot" : "C:/Users/Administrator/Documents/Hbuilder2/v3Usb",
+    "outputRoot" : "C:/Users/Administrator/Desktop/cam",
+    "Html2JsObj":{
+        "./background/background.html":"./main_background.js",
+        "./setting/setting.html": "./main_setting.js",
+        "./setting/setup.html": "./main_setup.js",
+        "./popup/popup.html": "./main_pop.js"
+    },
+    "unpackagedFile":["./images/Thumbs.db", ".project"],
+    "jsScriptsX":["./foreground/myjs.js"],
+    "jsScripts":["./common/jquery.js", "./setting/js/web_bluetooth.js"],
+    "unpackagedFolder": [".svn", "unpackage"],
+    "manifest":["./manifest.json"]
+
+}
