@@ -9,7 +9,8 @@ import * as fs from 'fs'
 let walk = require('posthtml/lib/api').walk
 let match = require('posthtml/lib/api').match
 import { entries } from '../common/Tools';
-import {config} from "../common/conf"
+import {config,Html2JsMap1} from "../common/conf"
+
 
 console.log(config)
 //import {read,writeFile} from "../common/Tools";
@@ -90,7 +91,8 @@ export class HtmlPage extends  Page{
 
 
         let tt1 = match.call(ast1, [{ tag: 'head' }],  (node)=> {
-            let script_path = path.relative(  path.dirname(this.to) ,this.JsOutPath);
+           // let script_path = path.relative(  path.dirname(this.to) ,this.JsOutPath);
+            let script_path = Html2JsMap1.get(this.from)
             var script_node ={ tag: 'script', attrs: { src: script_path } };
             if(node && node.tag == "head"){
                 node.content.push(script_node);
@@ -125,6 +127,8 @@ export class HtmlPage extends  Page{
 
         let p:Promise<any> = encryptCode(txt);
         p.then( (data)=>{
+
+            //console.log(this.JsOutPath)
 
             this.writeFile(data,this.JsOutPath);
 

@@ -1,8 +1,28 @@
 import * as path from 'path'
 import * as fs from 'fs'
+import * as program from 'commander'
 
 
-let info =  JSON.parse(fs.readFileSync(path.join( process.cwd()  ,"./dist/cam.json"),"utf-8")) ;
+program
+  .option('-c| --configure <string>', 'the relative path of cam.json')
+  .option('-e| --extionse <string>', 'the path of cam.json');
+
+
+
+program.parse(process.argv);
+
+
+let configPath = program.configure || "./dist/cam.json";
+
+let info =  JSON.parse(fs.readFileSync(path.join( process.cwd()  ,configPath),"utf-8")) ;
+
+let _version = program.extionse ||info.version
+
+console.log(program.configure)
+console.log(program.extionse)
+
+
+
 //let tt=fs.readdirSync("./cam.json");
 
 //console.log(info)
@@ -10,13 +30,17 @@ let info =  JSON.parse(fs.readFileSync(path.join( process.cwd()  ,"./dist/cam.js
 
 
 //let inputRoot,outputRoot,version,Html2JsObj,unpackagedFile,jsScriptsX,jsScripts,unpackagedFolder,manifest;
+export  const version = _version;
+
+info.config.EX_VERSION =  version;
+info.outputRoot = info.outputRoot+"_"+version;
 
 export const config = info.config;
 export const inputRoot = info.inputRoot;
 export const outputRoot: string =info.outputRoot; 
 
 
-export const version = info.version;
+
 
 
 const resolveInputRoot = function (dir) {
@@ -48,6 +72,17 @@ for (let k of Object.keys(info.Html2JsObj)) {
     Html2JsMap.set(resolveInputRoot(k),resolveOutputRoot(v))
     
 }
+
+export const Html2JsMap1 = new Map();
+for (let k of Object.keys(info.Html2JsObj)) {
+    let v =  info.Html2JsObj[k];
+    Html2JsMap1.set(resolveInputRoot(k),"/"+v)
+    
+}
+
+//console.log(Html2JsMap)
+
+//console.log(Html2JsMap1)
 
 
 
